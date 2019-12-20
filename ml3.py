@@ -81,6 +81,22 @@ def build_tree(train, max_depth, min_size):
     return root
 
 
+def print_tree(node, node_number, lines):
+    left, right = node['left'], node['right']
+    lines.append("Q {} {} {}".format(node['index'] + 1, node['value'], node_number + 1))
+    left_size = 1
+    if isinstance(left, int):
+        lines.append("C {}".format(left))
+    else:
+        left_size = print_tree(left, node_number + 1, lines)
+    lines[node_number - 1] += " {}".format(node_number + left_size + 1)
+    right_size = 1
+    if isinstance(right, int):
+        lines.append("C {}".format(right))
+    else:
+        right_size = print_tree(right, node_number + 1 + left_size, lines)
+    return left_size + right_size + 1
+
 
 first_string = list(map(int, str(input()).split(" ")))
 feature_count = first_string[0]
@@ -90,7 +106,13 @@ min_size = 0
 n = int(str(input()))
 dataset = list()
 for i in range(n):
-     dataset.append(list(map(int, str(input()).split(" "))))
+    dataset.append(list(map(int, str(input()).split(" "))))
 
 tree = build_tree(dataset, max_depth, min_size)
-print(tree)
+# print(tree)
+tree_text = list()
+indx = print_tree(tree, 1, tree_text)
+# tree_text[0] += " {}".format(indx)
+print(len(tree_text))
+for i in tree_text:
+    print(i)
