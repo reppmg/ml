@@ -15,6 +15,17 @@ def test_split(index, value, dataset):
     return left, right
 
 
+# Split a dataset based on an attribute and an attribute value
+def split_average(index, value, dataset):
+    left, right = list(), list()
+    for row in dataset:
+        if row[index] < value:
+            left.append(row)
+        else:
+            right.append(row)
+    return left, right
+
+
 # Calculate the Gini index for a split dataset
 def gini_index(groups, class_values):
     gini = 0.0
@@ -34,11 +45,14 @@ def get_split(dataset):
     class_values = list(set(row[-1] for row in dataset))
     b_index, b_value, b_score, b_groups = 999, 999, 999, None
     for index in range(len(dataset[0]) - 1):
-        for row in dataset:
-            groups = test_split(index, row[index], dataset)
-            gini = gini_index(groups, class_values)
-            if gini < b_score:
-                b_index, b_value, b_score, b_groups = index, row[index], gini, groups
+        slice = list(set(row[index] for row in dataset))
+        mx = max(slice)
+        mn = min(slice)
+        threshold = (mx + mn) / 2
+        groups = test_split(index, threshold, dataset)
+        gini = gini_index(groups, class_values)
+        if gini < b_score:
+            b_index, b_value, b_score, b_groups = index, threshold, gini, groups
     return {'index': b_index, 'value': b_value, 'groups': b_groups}
 
 
