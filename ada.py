@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
-data = pd.read_csv("chips.csv")
+data = pd.read_csv("geyser.csv")
 
 x = data.iloc[:, :-1].to_numpy()
 y = data.iloc[:, -1].to_numpy()
@@ -17,19 +17,20 @@ ESTIMATORS = 50
 
 x1 = x[:, 0]
 x2 = x[:, 1]
-x_min = np.min(x1) * 1.1
+x_min = np.min(x1) - 1.1
 x_max = np.max(x1) * 1.1
-y_min = np.min(x2) * 1.1
+y_min = np.min(x2) * 0.9
 y_max = np.max(x2) * 1.1
 
 plot_colors = "br"
-plot_step = np.mean([x_max - x_min, y_max - y_min])/100
+plot_step = 0.1
 class_names = "AB"
 
 xx, yy = np.meshgrid(np.arange(x_min, x_max, plot_step),
                      np.arange(y_min, y_max, plot_step))
 
 plt.figure(1)
+plt.pause(20)
 for i in range(1, ESTIMATORS):
     clf = AdaBoostClassifier(n_estimators=i)
     clf.fit(x, y)
