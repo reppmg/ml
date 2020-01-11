@@ -1,10 +1,11 @@
 import time
+import os
 
 from sklearn.ensemble import *
 import matplotlib.pyplot as plt
 import numpy as np
 
-ESTIMATORS = 5
+ESTIMATORS = 50
 
 x = [[5, 69], [-9, 68], [-21, 69], [-37, 50], [-51, 46], [-52, 20], [-39, 3], [-30, -19], [1, -40], [13, -51],
      [38, -56], [52, -52], [63, -24], [73, -18], [54, 48], [32, 58], [16, 53], [-4, 81], [-17, 69], [-47, 63],
@@ -56,11 +57,12 @@ for i in range(1, ESTIMATORS):
     plt.clf()
     cs = plt.contourf(xx, yy, z, cmap=plt.cm.Paired)
     plt.axis("tight")
-    # for class_value, class_name, class_color in zip(range(2), class_names, plot_colors):
-    #     idx = np.where(y == class_value)
-    #     plt.scatter(x[idx, 0], x[idx, 1],w
-    #                 c=class_color, cmap=plt.cm.Paired,
-    #                 s=20, edgecolor='k',
-    #                 label="Class %s" % class_name)
+    for class_value, class_name, class_color in zip(range(2), class_names, plot_colors):
+        idx = np.where(y == class_value)
+        plt.scatter(x[idx, 0], x[idx, 1],
+                    c=class_color, cmap=plt.cm.Paired,
+                    s=20, edgecolor='k',
+                    label="Class %s" % class_name)
 
     plt.pause(0.3)
+input("Press Enter to continue ...")
