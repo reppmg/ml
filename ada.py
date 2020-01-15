@@ -8,7 +8,6 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
 data = pd.read_csv("geyser.csv")
-
 x = data.iloc[:, :-1].to_numpy()
 y = data.iloc[:, -1].to_numpy()
 y = LabelEncoder().fit_transform(y)
